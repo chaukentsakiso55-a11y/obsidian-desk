@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "version": "2026.10.18.1",
+  "channel": "stable",
+  "package_lists": {
+    "runtime": "essentials/packages/runtime.txt",
+    "xfce4": "essentials/packages/xfce4.txt",
+    "mate": "essentials/packages/mate.txt",
+    "lxqt": "essentials/packages/lxqt.txt",
+    "kde": "essentials/packages/kde.txt",
+    "tools": "essentials/packages/tools.txt"
+  },
+  "apps": {
+    "ember": {
+      "name": "Ember",
+      "edition": "Linux V11",
+      "installer": "essentials/apps/ember/install.sh"
+    },
+    "mark54": {
+      "name": "Mark LIV",
+      "edition": "Legacy Linux Port",
+      "installer": "essentials/apps/mark54/install.sh"
+    }
+  }
+}
