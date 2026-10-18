@@ -1,0 +1,1 @@
+lxqt qterminal pcmanfm-qt featherpad
