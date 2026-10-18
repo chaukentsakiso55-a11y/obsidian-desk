@@ -1,0 +1,1 @@
+git wget curl openssh htop python clang
