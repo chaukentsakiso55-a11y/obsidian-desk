@@ -81,28 +81,28 @@ helper = r'''
         val launcher = File(binDir, spec.first)
         launcher.writeText(
             """
-            #!\${File(binDir, "bash").absolutePath}
-            export DISPLAY="\${'$'}{DISPLAY:-:0}"
-            export TMPDIR="\${tmpDir.absolutePath}"
-            mkdir -p "\${tmpDir.absolutePath}/proot"
-            exec "\${File(binDir, "proot-distro").absolutePath}" login debian \
-                --bind "\${tmpDir.absolutePath}:/tmp" \
-                --env PROOT_TMP_DIR="\${tmpDir.absolutePath}/proot" \
-                --env PROOT_LOADER="\${File(prefixDir, "libexec/proot/loader").absolutePath}" \
-                --env PROOT_LOADER_32="\${File(prefixDir, "libexec/proot/loader32").absolutePath}" -- \
-                env DISPLAY="\${'$'}DISPLAY" HOME=/root python3 "\${spec.second}"
+            #!${File(binDir, "bash").absolutePath}
+            export DISPLAY="${'$'}{DISPLAY:-:0}"
+            export TMPDIR="${tmpDir.absolutePath}"
+            mkdir -p "${tmpDir.absolutePath}/proot"
+            exec "${File(binDir, "proot-distro").absolutePath}" login debian \
+                --bind "${tmpDir.absolutePath}:/tmp" \
+                --env PROOT_TMP_DIR="${tmpDir.absolutePath}/proot" \
+                --env PROOT_LOADER="${File(prefixDir, "libexec/proot/loader").absolutePath}" \
+                --env PROOT_LOADER_32="${File(prefixDir, "libexec/proot/loader32").absolutePath}" -- \
+                env DISPLAY="${'$'}DISPLAY" HOME=/root python3 "${spec.second}"
             """.trimIndent() + "\n",
         )
         launcher.setExecutable(true, false)
 
         val desktopDir = File(prefixDir, "share/applications").apply { mkdirs() }
-        File(desktopDir, "\${spec.first}.desktop").writeText(
+        File(desktopDir, "${spec.first}.desktop").writeText(
             """
             [Desktop Entry]
             Type=Application
-            Name=\${spec.third}
+            Name=${spec.third}
             Comment=Obsidian Desk bundled application
-            Exec=\${launcher.absolutePath}
+            Exec=${launcher.absolutePath}
             Icon=applications-development
             Terminal=false
             Categories=Utility;
@@ -124,7 +124,7 @@ helper = r'''
         if (!isMinimalDebianInstalled()) {
             onProgress?.invoke(
                 0.08,
-                "Preparing Debian compatibility for \${if (appId == "ember") "Ember" else "Mark LIV"}...",
+                "Preparing Debian compatibility for ${if (appId == "ember") "Ember" else "Mark LIV"}...",
             )
             val debianReady = installMinimalDebian { progress, status ->
                 val scaled = if (progress < 0) progress else 0.08 + progress * 0.34
@@ -148,16 +148,16 @@ helper = r'''
 
         onProgress?.invoke(
             0.58,
-            "Installing \${if (appId == "ember") "Ember" else "Mark LIV"}...",
+            "Installing ${if (appId == "ember") "Ember" else "Mark LIV"}...",
         )
         val proot = File(binDir, "proot-distro")
         val command = """
-            "\${proot.absolutePath}" login debian \
-                --bind "\${tmpDir.absolutePath}:/tmp" \
-                --env PROOT_TMP_DIR="\${tmpDir.absolutePath}/proot" \
-                --env PROOT_LOADER="\${File(prefixDir, "libexec/proot/loader").absolutePath}" \
-                --env PROOT_LOADER_32="\${File(prefixDir, "libexec/proot/loader32").absolutePath}" -- \
-                bash "/tmp/\${installer.name}"
+            "${proot.absolutePath}" login debian \
+                --bind "${tmpDir.absolutePath}:/tmp" \
+                --env PROOT_TMP_DIR="${tmpDir.absolutePath}/proot" \
+                --env PROOT_LOADER="${File(prefixDir, "libexec/proot/loader").absolutePath}" \
+                --env PROOT_LOADER_32="${File(prefixDir, "libexec/proot/loader32").absolutePath}" -- \
+                bash "/tmp/${installer.name}"
         """.trimIndent().replace("\n", " ")
 
         val output = executeCommand(
